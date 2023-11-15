@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ContactsViewer</string>
+    <string name="search_hint_text">Search</string>
+    <string name="contact_photo">Contact Photo</string>
+</resources>
