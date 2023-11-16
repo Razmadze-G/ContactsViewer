@@ -9,7 +9,6 @@ import android.provider.ContactsContract.Contacts
 
 class ContactsReaderHelper {
     companion object Helper {
-        //TODO BUG: IDK WHY IT COPIES PHOTOS IN DIFFERENT CONTACTS RANDOMLY
         fun getPhoto(contactId: String, resolver: ContentResolver): ByteArray? {
             val contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, contactId.toLong())
             val photoUri = Uri.withAppendedPath(contactUri, Contacts.Photo.CONTENT_DIRECTORY)
@@ -50,7 +49,6 @@ class ContactsReaderHelper {
                 }
 
                 cursor.close()
-
 
                 if(normalizedFirstNumber == normalizedSecondNumber)
                     normalizedSecondNumber = ""

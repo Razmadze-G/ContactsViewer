@@ -1,5 +1,7 @@
 package com.example.contactsviewer.adapter
 
+import android.app.Activity
+import android.content.Context
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -9,13 +11,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.contactsviewer.MainActivity
 import com.example.contactsviewer.R
 import com.example.contactsviewer.data.Contact
 
 
-class ContactAdapter(private val contactsList: ArrayList<Contact>) :
+class ContactAdapter(private val context: Context) :
     RecyclerView.Adapter<ContactAdapter.ContactViewHolder>() {
 
+    private val contactsList: ArrayList<Contact> = arrayListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
         val viewLayout = LayoutInflater.from(parent.context).inflate(
             R.layout.contact_item, parent, false
@@ -29,12 +34,32 @@ class ContactAdapter(private val contactsList: ArrayList<Contact>) :
         holder.number.text = currentContact.number
         holder.secondNumber.text = currentContact.secondNumber
         if(currentContact.image?.isNotEmpty() == true){
-            val image = BitmapFactory.decodeByteArray(currentContact.image, 0, currentContact.image.size)
-            holder.image.setImageBitmap(image)
+            Glide.with(context)
+                .load(currentContact.image)
+                .circleCrop()
+                .into(holder.image)
+        } else {
+            Glide.with(context)
+                .load(R.drawable.contact_default_icon)
+                .circleCrop()
+                .into(holder.image)
         }
     }
 
     override fun getItemCount(): Int = contactsList.size
+
+    fun setData(contactsList: ArrayList<Contact>){
+        this.contactsList.clear()
+        this.contactsList.addAll(contactsList)
+    }
+
+    override fun getItemId(position: Int): Long {
+        return super.getItemId(position)
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position)
+    }
 
     class ContactViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById(R.id.contactImage)
